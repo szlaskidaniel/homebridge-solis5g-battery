@@ -50,13 +50,16 @@ Battery % is displayed as rotationSpeed of the Fan.
 | Key | Description | Default |
 | --- | --- | --- |
 | `solis_url` | Main Solis URL where requests are send | `https://www.soliscloud.com:13333` |
+| `lowBatteryTreshold` | If Batter lvl drop below definded treshold (0-100), notify Apple UI about it | N/A |
+
+
 
 ### Additional options
 | Key | Description | Default |
 | --- | --- | --- |
 | `pollInterval` | Time (in seconds) between device polls | `300` |
 | `model` | Appears under the _Model_ field for the accessory | plugin |
-| `serial` | Appears under the _Serial_ field for the accessory | apiroute |
+| `serial` | Appears under the _Serial_ field for the accessory | `000-000-000-001` |
 | `manufacturer` | Appears under the _Manufacturer_ field for the accessory | author |
 | `firmware` | Appears under the _Firmware_ field for the accessory | version |
 

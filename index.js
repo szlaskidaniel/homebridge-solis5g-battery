@@ -23,13 +23,16 @@ function Solis5G (log, config) {
   this.name = config.name  
   this.pollInterval = config.pollInterval || 300
   this.solisStationId = config.solis_stationId;
+  this.lowBatteryTreshold = config.lowBatteryTreshold;
+
   
   this.manufacturer = config.manufacturer || packageJson.author
-  this.serial = config.serial || this.apiroute
+  this.serial = config.serial || '000-000-000-001'
   this.model = config.model || packageJson.name
   this.firmware = config.firmware || packageJson.version
 
   this.service = new Service.Fan(this.name)
+  this.batteryService = new Service.BatteryService("Battery"); 
 }
 
 Solis5G.prototype = {
@@ -90,6 +93,12 @@ Solis5G.prototype = {
           
           this.service.getCharacteristic(Characteristic.RotationSpeed).updateValue(json.data.records[0].batteryPercent)
           this.log.debug('Updated rotationSpeed to: %s', json.data.records[0].batteryPercent)
+
+          // Update battery service
+          this.batteryService.getCharacteristic(Characteristic.BatteryLevel).updateValue(json.data.records[0].batteryPercent);
+          if (this.lowBatteryTreshold)             
+            this.batteryService.getCharacteristic(Characteristic.StatusLowBattery).updateValue(json.data.records[0].batteryPercent < this.lowBatteryTreshold ? 1 : 0);
+  
           
           callback()
         } catch (e) {
@@ -109,12 +118,13 @@ Solis5G.prototype = {
       .setCharacteristic(Characteristic.FirmwareRevision, this.firmware)
 
     this._getStatus(function () {})
+        
 
     setInterval(function () {
       this._getStatus(function () {})
     }.bind(this), this.pollInterval * 1000)
 
-    return [this.informationService, this.service]
+    return [this.informationService, this.service, this.batteryService]
   }
 
 }
