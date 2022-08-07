@@ -19,7 +19,9 @@ Battery % is displayed as rotationSpeed of the Fan.
 
 1. Install [homebridge](https://github.com/homebridge/homebridge#installation)
 2. Install this plugin: `npm install -g homebridge-solis5g-battery`
-3. Update your `config.json` file
+3. Obtain from Solis Support your personal KeyID and Secret
+4. To find your StationId, navigate via Browser to your main `https://www.soliscloud.com` page, open your main Station details, station Id will be in url `https://www.soliscloud.com/#/station/stationdetail_1?id=<Your StationId>`
+4. Update your `config.json` file
 
 ## Configuration
 
@@ -57,3 +59,5 @@ Battery % is displayed as rotationSpeed of the Fan.
 | `serial` | Appears under the _Serial_ field for the accessory | apiroute |
 | `manufacturer` | Appears under the _Manufacturer_ field for the accessory | author |
 | `firmware` | Appears under the _Firmware_ field for the accessory | version |
+
+
