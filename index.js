@@ -131,7 +131,7 @@ Solis5G.prototype = {
       this._getStatus(function () {})
     }.bind(this), this.pollInterval * 1000)
 
-    return [this.informationService, this.service, this.batteryService, this.powerPW ? this.powerService : null]
+    return [this.informationService, this.powerPW ? this.powerService : null,  this.service, this.batteryService]
   }
 
 }
