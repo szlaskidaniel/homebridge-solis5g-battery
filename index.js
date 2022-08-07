@@ -31,7 +31,7 @@ function Solis5G (log, config) {
   this.model = config.model || packageJson.name
   this.firmware = config.firmware || packageJson.version
 
-  this.service = new Service.HumiditySensor(this.name);
+  this.service = new Service.Fan(this.name)
   this.batteryService = new Service.BatteryService("Battery"); 
 }
 
@@ -88,11 +88,11 @@ Solis5G.prototype = {
         this.log.debug('Device response: %s', responseBody);        
         try {
           const json = JSON.parse(responseBody)           
-          //this.service.getCharacteristic(Characteristic.On).updateValue(1)
-          //this.log.debug('Updated state to: %s', 1)
+          this.service.getCharacteristic(Characteristic.On).updateValue(1)
+          this.log.debug('Updated state to: %s', 1)
           
-          this.service.getCharacteristic(Characteristic.CurrentRelativeHumidity).updateValue(json.data.records[0].batteryPercent)
-          //this.log.debug('Updated rotationSpeed to: %s', json.data.records[0].batteryPercent)
+          this.service.getCharacteristic(Characteristic.RotationSpeed).updateValue(json.data.records[0].batteryPercent)
+          this.log.debug('Updated rotationSpeed to: %s', json.data.records[0].batteryPercent)
 
           // Update battery service
           this.batteryService.getCharacteristic(Characteristic.BatteryLevel).updateValue(json.data.records[0].batteryPercent);
