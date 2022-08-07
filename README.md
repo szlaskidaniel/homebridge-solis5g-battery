@@ -50,7 +50,10 @@ Battery % is displayed as rotationSpeed of the Fan.
 | Key | Description | Default |
 | --- | --- | --- |
 | `solis_url` | Main Solis URL where requests are send | `https://www.soliscloud.com:13333` |
-| `lowBatteryTreshold` | If Batter lvl drop below definded treshold (0-100), notify Apple UI about it | N/A |
+| `lowBatteryTreshold` | If Battery level drop below definded treshold (0-100), notify Apple UI about it | N/A |
+| `powerPW` | Set to true to get current generation power from your Solar Panels (Watt)  | N/A |
+
+
 
 
 
