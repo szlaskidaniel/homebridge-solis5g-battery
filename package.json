@@ -1,11 +1,11 @@
 {
-  "name": "homebridge-web-fan",
-  "version": "1.0.7",
-  "description": "Homebridge plugin for a web-based fan",
+  "name": "homebridge-solis5g-battery",
+  "version": "1.0.0",
+  "description": "Homebridge plugin for a Solis5G Battery status",
   "main": "index.js",
   "dependencies": {
-    "request": ">=2.88.0",
-    "ip": ">=1.1.5"
+    "request": ">=2.88.0",     
+    "moment": "^2.29.1"
   },
   "engines": {
     "homebridge": ">=0.4.50",
@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phenotypic/homebridge-web-fan.git"
+    "url": "git+https://github.com/szlaskidaniel/homebridge-solis5g-battery.git"
   },
   "keywords": [
     "homebridge-plugin"
   ],
-  "author": "phenotypic",
+  "author": "DanielSzlaski",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/phenotypic/homebridge-web-fan/issues"
+    "url": "https://github.com/szlaskidaniel/homebridge-solis5g-battery/issues"
   },
-  "homepage": "https://github.com/phenotypic/homebridge-web-fan#readme"
+  "homepage": "https://github.com/szlaskidaniel/homebridge-solis5g-battery#readme"
 }
