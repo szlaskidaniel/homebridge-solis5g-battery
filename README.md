@@ -15,6 +15,10 @@
 This [homebridge](https://github.com/homebridge/homebridge) plugin read Battery configuration from your cloud Solis 5G account and exposes it as a Fan Accessory to Apple's [HomeKit](http://www.apple.com/ios/home/). 
 Battery % is displayed as rotationSpeed of the Fan.
 
+![image](/img/TileView1.png)
+![image](/img/TileView2.jpg)
+
+
 ## Installation
 
 1. Install [homebridge](https://github.com/homebridge/homebridge#installation)
