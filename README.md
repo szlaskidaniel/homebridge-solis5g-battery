@@ -28,9 +28,9 @@ Battery % is displayed as rotationSpeed of the Fan.
      {
        "accessory": "Solis5gBattery",
        "name": "Battery",  
-       "solis_keyid": "",
-       "solis_secret": "",       
-       "solis_stationId": "<Your StationId from soliscloud>"     
+       "solis_keyid": "<Solis KeyId>",
+       "solis_secret": "<Solis Secret>",       
+       "solis_stationId": "<Solis StationId>"     
      }
 ]
 ```
