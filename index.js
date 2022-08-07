@@ -96,16 +96,23 @@ Solis5G.prototype = {
           this.log.debug('Updated state to: %s', 1)
           
           this.service.getCharacteristic(Characteristic.RotationSpeed).updateValue(json.data.records[0].batteryPercent)
-          this.log.debug('Updated rotationSpeed to: %s', json.data.records[0].batteryPercent)
+          this.log.debug('Updated batteryPercent to: %s', json.data.records[0].batteryPercent)
 
           // Update battery service
           this.batteryService.getCharacteristic(Characteristic.BatteryLevel).updateValue(json.data.records[0].batteryPercent);
           if (this.lowBatteryTreshold)             
             this.batteryService.getCharacteristic(Characteristic.StatusLowBattery).updateValue(json.data.records[0].batteryPercent < this.lowBatteryTreshold ? 1 : 0);
   
-          // Update Power device
-          if (this.powerPW)
-            this.powerService.getCharacteristic(Characteristic.CurrentAmbientLightLevel).updateValue(json.data.records[0].power * 1000);
+          // Update Power device (LightSensor)
+          if (this.powerPW) {
+            let power = json.data.records[0].power;
+            if (power > 0) 
+              power = power * 1000;
+            else 
+              power = 0,001;
+
+            this.powerService.getCharacteristic(Characteristic.CurrentAmbientLightLevel).updateValue(power);
+          }
           
           callback()
         } catch (e) {
