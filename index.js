@@ -104,13 +104,10 @@ Solis5G.prototype = {
             this.batteryService.getCharacteristic(Characteristic.StatusLowBattery).updateValue(json.data.records[0].batteryPercent < this.lowBatteryTreshold ? 1 : 0);
   
           // Update Power device (LightSensor)
-          if (this.powerPW) {
-            let power = json.data.records[0].power;
-            if (power > 0) 
-              power = power * 1000;
-            else 
-              power = 0,001;
-
+          if (this.powerPW) {            
+            let power = parseInt(json.data.records[0].power);            
+            this.log.debug('current Power value (W):' + power);
+            if (power === 0) power = 0.0001;                                       
             this.powerService.getCharacteristic(Characteristic.CurrentAmbientLightLevel).updateValue(power);
           }
           
