@@ -1,0 +1,49 @@
+{
+    "pluginAlias": "Solis5GBattery",
+    "pluginType": "accessory",
+    "singular": true,
+    "headerDisplay": "Solis KeyId and Solis StationId should be obtained from Solis Inverters Support Team prior installation.",
+    "footerDisplay": "",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "description": "Name of the accessory",         
+          "required": true
+        },
+        "solis_keyid": {
+            "title": "Solis KeyId",
+            "type": "string",
+            "required": true
+          },
+          "solis_secret": {
+            "title": "Solis Secret",
+            "type": "string",
+            "required": true
+          },
+          "solis_stationId": {
+            "title": "Solis StationId",
+            "type": "string",
+            "required": true
+          },
+          "lowBatteryTreshold": {
+            "title": "When Battery drops below defined percentage, display Low Battery warning in HomeKit UI",
+            "type": "integer",
+            "required": false,
+            "default": 15,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "powerPW": {
+            "title": "Display current Power in Watts (data from your inverter)",
+            "type": "boolean",
+            "required": false,
+            "default": false           
+          }
+      }
+    },
+    "form": null,
+    "display": null
+  }
