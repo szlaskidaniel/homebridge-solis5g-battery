@@ -3,7 +3,11 @@
     "pluginType": "accessory",
     "singular": true,
     "headerDisplay": "Solis KeyId and Solis StationId should be obtained from Solis Inverters Support Team prior installation.",
-    "footerDisplay": "",
+    "footerDisplay": "(c) 2022 Daniel Szlaski",
+    "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/danielszlaski"
+    },
     "schema": {
       "type": "object",
       "properties": {
