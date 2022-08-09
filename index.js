@@ -88,9 +88,15 @@ Solis5G.prototype = {
         this.log.warn('Error getting status: %s', error.message)
         this.service.getCharacteristic(Characteristic.On).updateValue(new Error('Polling failed'))        
         callback(error)
-      } else {
+      } else {        
         this.log.debug('Device response: %s', responseBody);        
         try {
+          if (response?.statusCode !== 200) {
+            console.log(response.message);
+            this.log.warn(`Error HTTP ${response.statusCode}`);
+            callback();
+            return;
+          }
           const json = JSON.parse(responseBody)           
           this.service.getCharacteristic(Characteristic.On).updateValue(1)
           this.log.debug('Updated state to: %s', 1)
