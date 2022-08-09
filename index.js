@@ -86,7 +86,7 @@ Solis5G.prototype = {
     this._httpRequest(this.SOLIS_AUTH.url + resource, body, 'POST', headers, function (error, response, responseBody) {
       if (error) {
         this.log.warn('Error getting status: %s', error.message)
-        this.service.getCharacteristic(Characteristic.On).updateValue(new Error('Polling failed'))
+        this.service.getCharacteristic(Characteristic.On).updateValue(new Error('Polling failed'))        
         callback(error)
       } else {
         this.log.debug('Device response: %s', responseBody);        
@@ -105,7 +105,7 @@ Solis5G.prototype = {
   
           // Update Power device (LightSensor)
           if (this.powerPW) {            
-            let power = parseInt(json.data.records[0].power);            
+            let power = parseFloat(json.data.records[0].power) * 1000;            
             this.log.debug('current Power value (W):' + power);
             if (power === 0) power = 0.0001;                                       
             this.powerService.getCharacteristic(Characteristic.CurrentAmbientLightLevel).updateValue(power);
