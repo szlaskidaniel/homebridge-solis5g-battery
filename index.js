@@ -84,6 +84,7 @@ Solis5G.prototype = {
     
     
     this._httpRequest(this.SOLIS_AUTH.url + resource, body, 'POST', headers, function (error, response, responseBody) {
+      this.log.debug('<< solis <- response');
       if (error) {
         this.log.warn('Error getting status: %s', error.message)
         this.service.getCharacteristic(Characteristic.On).updateValue(new Error('Polling failed'))        
@@ -97,23 +98,28 @@ Solis5G.prototype = {
             callback();
             return;
           }
-          const json = JSON.parse(responseBody)           
+          const json = JSON.parse(responseBody);
+          const batteryValue = json.data.records[0].batteryPercent;
+          const powerValue = json.data.records[0].power;
+                  
           this.service.getCharacteristic(Characteristic.On).updateValue(1)
           this.log.debug('Updated state to: %s', 1)
           
-          this.service.getCharacteristic(Characteristic.RotationSpeed).updateValue(json.data.records[0].batteryPercent)
-          this.log.debug('Updated batteryPercent to: %s', json.data.records[0].batteryPercent)
+          this.service.getCharacteristic(Characteristic.RotationSpeed).updateValue(batteryValue)
+          this.log.debug('Updated batteryPercent to: %s', batteryValue)
 
           // Update battery service
-          this.batteryService.getCharacteristic(Characteristic.BatteryLevel).updateValue(json.data.records[0].batteryPercent);
-          if (this.lowBatteryTreshold)             
-            this.batteryService.getCharacteristic(Characteristic.StatusLowBattery).updateValue(json.data.records[0].batteryPercent < this.lowBatteryTreshold ? 1 : 0);
-  
+          this.batteryService.getCharacteristic(Characteristic.BatteryLevel).updateValue(batteryValue);
+          
+          if (this.lowBatteryTreshold) {             
+            this.batteryService.getCharacteristic(Characteristic.StatusLowBattery).updateValue(batteryValue < this.lowBatteryTreshold ? 1 : 0);
+            if (batteryValue < this.lowBatteryTreshold) this.log('Low battery warning');
+          }
           // Update Power device (LightSensor)
-          if (this.powerPW) {            
-            let power = parseFloat(json.data.records[0].power) * 1000;            
+          if (this.powerPW) {                      
+            let power = parseFloat(powerValue) * 1000;            
             this.log.debug('current Power value (W):' + power);
-            if (power === 0) power = 0.0001;                                       
+            if (power === 0) power = 0.0001; // CurrentAmbientLightLevel cannot be 0
             this.powerService.getCharacteristic(Characteristic.CurrentAmbientLightLevel).updateValue(power);
           }
           
