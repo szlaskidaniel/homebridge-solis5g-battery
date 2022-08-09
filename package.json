@@ -1,6 +1,6 @@
 {
   "name": "homebridge-solis5g-battery",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Homebridge plugin for a Solis5G Battery status",
   "main": "index.js",
   "dependencies": {
