@@ -14,6 +14,11 @@ module.exports = function (homebridge) {
 function Solis5G (log, config) {
   this.log = log
 
+  // Don't load the plugin if these aren't accessible for any reason
+  if (!log || !config) {
+    return
+  }
+
   this.SOLIS_AUTH = {
     keyId: config.solis_keyid,
     secret: config.solis_secret,
@@ -36,6 +41,8 @@ function Solis5G (log, config) {
   this.service = new Service.Fan(this.name)
   this.batteryService = new Service.BatteryService("Battery"); 
   this.powerService = new Service.LightSensor("Power");
+
+  this.log('Initialized');
 
 }
 
