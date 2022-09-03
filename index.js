@@ -14,6 +14,8 @@ module.exports = function (homebridge) {
 function Solis5G (log, config) {
   this.log = log
 
+  batteryValue = 100;
+
   // Don't load the plugin if these aren't accessible for any reason
   if (!log || !config) {
     return
@@ -27,11 +29,12 @@ function Solis5G (log, config) {
 
   this.name = config.name  
   this.pollInterval = config.pollInterval || 300
-  this.solisStationId = config.solis_stationId;
-  this.lowBatteryTreshold = config.lowBatteryTreshold;
+  this.solisStationId = config.solis_stationId;  
   this.powerPW = config.powerPW;
 
-
+  this.lowBatteryTreshold = config.lowBatteryTreshold;
+  this.batteryLow = config.batteryLow;
+  this.batteryHigh = config.batteryHigh;
   
   this.manufacturer = config.manufacturer || packageJson.author
   this.serial = config.serial || '000-000-000-001'
@@ -40,11 +43,22 @@ function Solis5G (log, config) {
 
   this.service = new Service.Fan(this.name)
   this.batteryService = new Service.BatteryService("Battery"); 
+  
+  if (this.batteryHigh)
+    this.eventHighBattery = new Service.ContactSensor('HighBatteryEvent', 'HighBattery');
+  if (this.batteryLow)
+    this.eventLowBattery = new Service.ContactSensor('LowBatteryEvent', 'LowBattery');
+
+
+
   this.powerService = new Service.LightSensor("Power");
 
   this.log('Initialized');
 
 }
+
+
+
 
 Solis5G.prototype = {
 
@@ -106,7 +120,7 @@ Solis5G.prototype = {
             return;
           }
           const json = JSON.parse(responseBody);
-          const batteryValue = json.data.records[0].batteryPercent;
+          batteryValue = json.data.records[0].batteryPercent;
           const powerValue = json.data.records[0].power;
                   
           this.service.getCharacteristic(Characteristic.On).updateValue(1)
@@ -122,6 +136,18 @@ Solis5G.prototype = {
             this.batteryService.getCharacteristic(Characteristic.StatusLowBattery).updateValue(batteryValue < this.lowBatteryTreshold ? 1 : 0);
             if (batteryValue < this.lowBatteryTreshold) this.log('Low battery warning');
           }
+
+          // Update Sensors events for High/Low Battery events (could be used during automations)
+          if (batteryValue > this.batteryHigh && this.batteryHigh) this.eventHighBattery.getCharacteristic(Characteristic.ContactSensorState).updateValue(1)
+          else if (batteryValue < this.batteryLow && this.batteryLow) this.eventLowBattery.getCharacteristic(Characteristic.ContactSensorState).updateValue(1);
+
+          sleep(10 * 1000).then(() => {
+            if (this.batteryHigh)
+              this.eventHighBattery.getCharacteristic(Characteristic.ContactSensorState).updateValue(0)
+            if (this.batteryLow)
+              this.eventLowBattery.getCharacteristic(Characteristic.ContactSensorState).updateValue(0);
+          });
+          
           // Update Power device (LightSensor)
           if (this.powerPW) {                      
             let power = parseFloat(powerValue) * 1000;            
@@ -154,11 +180,14 @@ Solis5G.prototype = {
       this._getStatus(function () {})
     }.bind(this), this.pollInterval * 1000)
 
-    return [this.informationService, this.powerPW ? this.powerService : null,  this.service, this.batteryService]
+    return [this.informationService, this.powerPW ? this.powerService : null,  this.service, this.batteryService, this.batteryHigh ? this.eventHighBattery : null, this.batteryLow ? this.eventLowBattery: null]
   }
 
 }
 
 function hmacSha1 (options) {
   return crypto.createHmac('sha1', options.secret).update(options.message).digest('base64')
+}
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
