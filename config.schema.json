@@ -1,5 +1,5 @@
 {
-    "pluginAlias": "Solis5GBattery",
+    "pluginAlias": "Solis5gBattery",
     "pluginType": "accessory",
     "singular": true,
     "headerDisplay": "Solis KeyId and Solis StationId should be obtained from Solis Inverters Support Team prior installation.",
