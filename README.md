@@ -5,7 +5,7 @@
 <span align="center">
 
 # homebridge-solis5g-battery
-
+[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![npm](https://img.shields.io/npm/v/homebridge-solis5g-battery.svg)](https://www.npmjs.com/package/homebridge-solis5g-battery) [![npm](https://img.shields.io/npm/dt/homebridge-solis5g-battery.svg)](https://www.npmjs.com/package/homebridge-solis5g-battery)
 
 </span>

@@ -1,6 +1,6 @@
 {
   "name": "homebridge-solis5g-battery",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Homebridge plugin for a Solis5G Battery status",
   "main": "index.js",
   "dependencies": {
@@ -26,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/szlaskidaniel/homebridge-solis5g-battery/issues"
   },
-  "homepage": "https://github.com/szlaskidaniel/homebridge-solis5g-battery#readme"
+  "homepage": "https://github.com/szlaskidaniel/homebridge-solis5g-battery#readme",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/szlaskidaniel"
+  }
 }
